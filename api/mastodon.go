@@ -8,6 +8,7 @@ import (
 	"image/draw"
 	_ "image/jpeg"
 	"image/png"
+	"math"
 	"net/http"
 	"strings"
 
@@ -111,8 +112,8 @@ func combineImages(imageUrl string) (result *image.RGBA, err error) {
 		},
 		{
 			Image: mastodonImg,
-			XPos:  avatarImg.Bounds().Dx() - mastodonImg.Bounds().Dx(),
-			YPos:  avatarImg.Bounds().Dy() - mastodonImg.Bounds().Dy(),
+			XPos:  int(math.Round(0.8 * float64(avatarImg.Bounds().Dx()-mastodonImg.Bounds().Dx()))),
+			YPos:  int(math.Round(0.8 * float64(avatarImg.Bounds().Dy()-mastodonImg.Bounds().Dy()))),
 		},
 	} {
 		//set image offset
