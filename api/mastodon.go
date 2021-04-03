@@ -43,8 +43,14 @@ func init() {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	usernames, ok := r.URL.Query()["username"]
+	if !ok || len(usernames[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "Add your twitter handle as a query parameter: https://mastodon-in-twitter-avatar.vercel.app/api/mastodon?<YOUR_TWITTER_HANDLE>")
+		return
+	}
 	usr, _, err := twitterClient.Users.Show(&twitter.UserShowParams{
-		ScreenName: "kiwiidb",
+		ScreenName: usernames[0],
 	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
